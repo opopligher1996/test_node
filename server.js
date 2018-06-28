@@ -96,7 +96,16 @@ app.get('/pagecount', function (req, res) {
 });
 
 app.get('/about',function (req,res) {
-  res.send('Gash Tsui');
+  if (!db) {
+    initDb(function(err){});
+  }
+  if (db) {
+    db.collection('counts').count(function(err, count ){
+      res.send('Gash Hi');
+    });
+  } else {
+    res.send('Gash Hi');
+  }
 });
 
 // error handling
