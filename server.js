@@ -5,6 +5,7 @@ var express = require('express'),
     
 Object.assign=require('object-assign')
 
+	console.log("Enter");
 app.engine('html', require('ejs').renderFile);
 app.use(morgan('combined'))
 
@@ -77,7 +78,9 @@ app.get('/', function (req, res) {
   }
 });
 
+
 app.get('/pagecount', function (req, res) {
+	console.log("pagecount");
   // try to initialize the db on every request if it's not already
   // initialized.
   if (!db) {
