@@ -2,7 +2,7 @@
 var express = require('express'),
     app     = express(),
     morgan  = require('morgan');
-    
+
 Object.assign=require('object-assign')
 
 	console.log("Enter");
@@ -95,7 +95,6 @@ app.get('/pagecount', function (req, res) {
   }
 });
 
-<<<<<<< HEAD
 app.get('/about',function (req,res) {
   if (!db) {
     initDb(function(err){});
@@ -108,9 +107,6 @@ app.get('/about',function (req,res) {
     res.send('Gash Hi');
   }
 });
-
-=======
->>>>>>> parent of 7ae6b10... add about page
 // error handling
 app.use(function(err, req, res, next){
   console.error(err.stack);
