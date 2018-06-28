@@ -2,7 +2,7 @@
 var express = require('express'),
     app     = express(),
     morgan  = require('morgan');
-    
+
 Object.assign=require('object-assign')
 
 	console.log("Enter");
@@ -93,6 +93,10 @@ app.get('/pagecount', function (req, res) {
   } else {
     res.send('{ pageCount: -1 }');
   }
+});
+
+app.get('/about',function (req,res) {
+  res.send('Gash Tsui');
 });
 
 // error handling
