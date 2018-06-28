@@ -1,7 +1,19 @@
 //  OpenShift sample Node application
-var express = require('express'),
-    app     = express(),
-    morgan  = require('morgan');
+var express = require('express');
+var app     = express();
+var morgan  = require('morgan');
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/test');
+
+var WebSiteSchema = new mongoose.Schema({
+    name: String,
+    created: {type: Date, default:Date.now}
+});
+
+var WebSiteModel = mongoose.model('WebSiteMode',WebSiteSchema);
+
+var website1 = new WebSiteModel({name: "Website 1"});
+website1.save();
 
 Object.assign=require('object-assign')
 
