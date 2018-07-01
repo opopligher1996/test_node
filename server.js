@@ -1,7 +1,13 @@
 //  OpenShift sample Node application
-var express = require('express');
-var app     = express();
+var express = require('express'),
+    app     = express(),
+    morgan  = require('morgan');
 
+Object.assign=require('object-assign')
+
+	console.log("Enter");
+app.engine('html', require('ejs').renderFile);
+app.use(morgan('combined'))
 
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
@@ -72,10 +78,6 @@ app.get('/', function (req, res) {
   }
 });
 
-app.get('/azuretest', function (req, res){
-  console.log('azuretest');
-  res.send('Gash Hi');
-});
 
 app.get('/pagecount', function (req, res) {
 	console.log("pagecount");
@@ -105,45 +107,6 @@ app.get('/about',function (req,res) {
     res.send('Gash Hi');
   }
 });
-
-app.get('/api/website/:name',function (req, res){
-  var website = new WebSiteModel({name: req.params.name});
-  website.save(function (err, doc){
-
-  });
-})
-
-app.get('/api/website/:id',function(req,res){
-  var website = new WebSiteModel({name: req.params.id});
-  website.save(function (err,doc){
-    res.json(doc);
-  })
-})
-
-app.get('/email',function(req,res){
-      var transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: 'youremail@gmail.com',
-        pass: 'yourpassword'
-      }
-    });
-
-    var mailOptions = {
-      from: 'youremail@gmail.com',
-      to: 'myfriend@yahoo.com',
-      subject: 'Sending Email using Node.js',
-      text: 'That was easy!'
-    };
-
-    transporter.sendMail(mailOptions, function(error, info){
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent: ' + info.response);
-      }
-    });
-})
 // error handling
 app.use(function(err, req, res, next){
   console.error(err.stack);
