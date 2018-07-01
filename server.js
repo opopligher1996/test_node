@@ -3,17 +3,15 @@ var express = require('express');
 var app     = express();
 var morgan  = require('morgan');
 var mongoose = require('mongoose');
+var nodemailer = require('nodemailer');
 mongoose.connect('mongodb://localhost/test');
 
 var WebSiteSchema = new mongoose.Schema({
     name: String,
     created: {type: Date, default:Date.now}
-});
+},{collection: 'website'});
 
-var WebSiteModel = mongoose.model('WebSiteMode',WebSiteSchema);
-
-var website1 = new WebSiteModel({name: "Website 1"});
-website1.save();
+var WebSiteModel = mongoose.model('WebSite',WebSiteSchema);
 
 Object.assign=require('object-assign')
 
@@ -90,6 +88,10 @@ app.get('/', function (req, res) {
   }
 });
 
+app.get('/azuretest', function (req, res){
+  console.log('azuretest');
+  res.send('Gash Hi');
+});
 
 app.get('/pagecount', function (req, res) {
 	console.log("pagecount");
@@ -119,6 +121,45 @@ app.get('/about',function (req,res) {
     res.send('Gash Hi');
   }
 });
+
+app.get('/api/website/:name',function (req, res){
+  var website = new WebSiteModel({name: req.params.name});
+  website.save(function (err, doc){
+
+  });
+})
+
+app.get('/api/website/:id',function(req,res){
+  var website = new WebSiteModel({name: req.params.id});
+  website.save(function (err,doc){
+    res.json(doc);
+  })
+})
+
+app.get('/email',function(req,res){
+      var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'youremail@gmail.com',
+        pass: 'yourpassword'
+      }
+    });
+
+    var mailOptions = {
+      from: 'youremail@gmail.com',
+      to: 'myfriend@yahoo.com',
+      subject: 'Sending Email using Node.js',
+      text: 'That was easy!'
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+})
 // error handling
 app.use(function(err, req, res, next){
   console.error(err.stack);
